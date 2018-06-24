@@ -9,7 +9,7 @@ echo "$0"
 echo "$1"
 
 if [ "$1" = 'run' ]; then
-    gunicorn
+    gunicorn app:api -b 0.0.0.0:8000
 fi
 
 if [ "$1" = 'debug' ]; then

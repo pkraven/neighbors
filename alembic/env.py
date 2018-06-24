@@ -4,7 +4,7 @@ from alembic import context
 from sqlalchemy import engine_from_config, pool
 from logging.config import fileConfig
 
-from utils import get_config
+from utils.config import get_config
 
 
 target_metadata = None
