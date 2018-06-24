@@ -4,9 +4,9 @@ from functools import wraps
 from marshmallow import ValidationError
 
 from errors import (
-    HttpRequestError,
+    NoBodyError,
     JSONParseError,
-    UnprocessableEntity
+    UnprocessableEntityError
 )
 
 
@@ -14,24 +14,21 @@ class LoadJson:
     def __init__(self, schema):
         self.schema = schema(strict=True)
 
-    def __call__(self, f):
-        @wraps(f)
+    def __call__(self, func):
+        @wraps(func)
         def wrapper(handler, req, resp, *args, **kwargs):
-            body = req.context['data']
+            body = req.bounded_stream.read()
             if not body:
-                raise HttpRequestError()
+                raise NoBodyError()
 
             try:
                 loaded = json.loads(body.decode())
                 data = self.schema.load(loaded).data
-            except (json.decoder.JSONDecodeError, UnicodeDecodeError, ValueError) as e:
-                logging.exception('Exception on message loading')
+            except (json.decoder.JSONDecodeError, UnicodeDecodeError, ValueError):
                 raise JSONParseError()
             except ValidationError as e:
-                logging.exception('Exception on message validation')
-                raise UnprocessableEntity(e)
+                raise UnprocessableEntityError(e)
 
-            return f(handler, req, resp, *args, **kwargs, data=data)
+            return func(handler, req, resp, *args, **kwargs, data=data)
 
         return wrapper
-

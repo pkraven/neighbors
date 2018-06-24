@@ -1,34 +1,23 @@
 import json
-import logging
 
 import falcon
 
 
 class ApplicationError(Exception):
-    """
-    Custom errors base class
-    """
-    error = {
-        'status': falcon.HTTP_500,
-        'detail': 'Unhandled exception'
-    }
+    status = falcon.HTTP_500
 
     def __init__(self, messages=None):
-        if messages is None:
-            self.messages = {'errors': []}
-        elif isinstance(messages, dict) and not messages.get('errors'):
-            self.messages = {'errors': [messages]}
-        else:
-            self.messages = messages
+        self.messages = messages
 
-    @staticmethod
-    def handle(exception, req, resp, error=None):
-        resp.status = exception.error.get('status', falcon.HTTP_500)
-        resp.body = json.dumps(exception.messages)
+
+def exception_handler(exception, request, response, error=None):
+    response.status = exception.status
+    if exception.messages:
+        response.body = json.dumps(exception.messages)
 
 
 class HttpRequestError(ApplicationError):
-    error = {'status': falcon.HTTP_400}
+    status = falcon.HTTP_400
 
 
 class JSONParseError(HttpRequestError):
@@ -39,14 +28,23 @@ class JSONParseError(HttpRequestError):
         })
 
 
+class NoBodyError(HttpRequestError):
+    def __init__(self):
+        super().__init__({
+            'code': 'empty_body',
+            'detail': "Body is expected"
+        })
+
+
 class NotFound(ApplicationError):
-    error = {'status': falcon.HTTP_404}
+    status = falcon.HTTP_404
 
 
-class UnprocessableEntity(ApplicationError):
-    error = {'status': falcon.HTTP_422}
+class UnprocessableEntityError(ApplicationError):
+    status = falcon.HTTP_422
 
     def __init__(self, exception):
         messages = exception.messages
-        super().__init__({'errors': messages})
-
+        super().__init__({
+            'errors': messages
+        })
