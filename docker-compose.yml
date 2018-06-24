@@ -1,0 +1,24 @@
+version: '2'
+
+services:
+
+  neighbors:
+    build: .
+    environment:
+      - PYTHONPATH=/app/neighbors
+    depends_on:
+      - neighbors-postgres
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    command: debug
+
+  neighbors-postgres:
+    image: mdillon/postgis:latest
+    environment:
+      - POSTGRES_PASSWORD=neighbors_password
+      - POSTGRES_USER=neighbors_user
+      - POSTGRES_DB=neighbors
+    ports:
+      - 5432:5432
