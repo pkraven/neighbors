@@ -90,6 +90,3 @@ def test_create_user_wrong_params_422(url_prefix, body):
     )
 
     assert user.status_code == 422
-
-
-

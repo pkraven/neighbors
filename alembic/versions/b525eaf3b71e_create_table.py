@@ -1,7 +1,7 @@
 """create table
 
 Revision ID: b525eaf3b71e
-Revises: 
+Revises:
 Create Date: 2018-06-24 19:30:05.749338
 
 """

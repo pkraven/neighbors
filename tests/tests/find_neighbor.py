@@ -19,7 +19,6 @@ def test_find_neighbor_200(url_prefix):
     assert user.json() != []
 
 
-
 def test_find_neighbor_wrong_params_400(url_prefix):
     user = requests.post(
         f"{url_prefix}/user",
