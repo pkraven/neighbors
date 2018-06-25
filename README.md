@@ -31,10 +31,12 @@ Add user:
     }
 
     
-    curl http://127.0.0.1:8000/user -XPOST -d '{"name": "Marcus Aurelius", "coord_x": "41.903013", "coord_y": "12.467022"}'
+    curl http://127.0.0.1:8000/user -XPOST -i -d '{"name": "Marcus Aurelius", "coord_x": "41.903013", "coord_y": "12.467022"}'
 ```
 
 ```
 Find neighbors:
     GET  http://127.0.0.1:8000/neighbors/61.465245,33.670114?limit=100
+
+    curl -i http://127.0.0.1:8000/neighbors/61.465245,33.670114?limit=100
 ```
