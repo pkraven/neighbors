@@ -1,0 +1,8 @@
+db:
+  engine: postgresql
+  driver: psycopg2
+  host: neighbors-postgres
+  port: 5432
+  database: neighbors
+  user: neighbors_user
+  password: neighbors_password

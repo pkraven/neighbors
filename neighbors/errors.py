@@ -36,10 +36,6 @@ class NoBodyError(HttpRequestError):
         })
 
 
-class NotFound(ApplicationError):
-    status = falcon.HTTP_404
-
-
 class UnprocessableEntityError(ApplicationError):
     status = falcon.HTTP_422
 

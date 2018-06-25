@@ -7,7 +7,8 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 class SessionManager:
     _inst = None
 
-    def __new__(cls, config: Optional[dict]=None, debug=False, isolation_level="REPEATABLE_READ", expire_on_commit=False):
+    def __new__(cls, config: Optional[dict]=None, debug=False,
+                isolation_level="REPEATABLE_READ", expire_on_commit=False):
         if not cls._inst:
             cls._inst = super().__new__(cls)
             cls._inst._config = config

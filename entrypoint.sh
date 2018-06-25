@@ -9,15 +9,11 @@ echo "$0"
 echo "$1"
 
 if [ "$1" = 'run' ]; then
-    gunicorn app:api -b 0.0.0.0:8000
+    gunicorn app:api -b 0.0.0.0:$2
 fi
 
-if [ "$1" = 'debug' ]; then
+if [ "$1" = 'sleep' ]; then
     sleep infinity
-fi
-
-if [ "$1" = 'test' ]; then
-    pytest
 fi
 
 exec "$@"

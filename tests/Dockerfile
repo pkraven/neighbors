@@ -1,6 +1,6 @@
 FROM python:3.6
 
-WORKDIR /app
+WORKDIR /app/tests
 
 COPY . .
 RUN pip install -r requirements.txt
