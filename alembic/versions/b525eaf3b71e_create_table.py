@@ -22,8 +22,8 @@ def upgrade():
     op.create_table(
         'users',
         sa.Column('id', sa.Integer, primary_key=True),
-        sa.Column('name', sa.Text),
-        sa.Column('coords', ge.Geometry(geometry_type='POINT', srid=4326))
+        sa.Column('name', sa.Text, nullable=False),
+        sa.Column('coords', ge.Geometry(geometry_type='POINT', srid=4326), nullable=False)
     )
 
 

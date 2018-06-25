@@ -3,7 +3,7 @@ import falcon
 
 from schemas import CreateUserSchema, ResponseNeighborsSchema
 from utils.decorators import LoadJson
-# import dao
+import dao
 
 
 class UserHandler:
